@@ -3,9 +3,27 @@ import { storage } from "@/lib/storage";
 import { bypassRequestSchema } from "@/lib/schema";
 import { generateCSRFToken, setCSRFCookie, verifyCSRFToken, getClientIP } from "@/lib/csrf";
 
-// GET /api/csrf-token - Retrieve CSRF token
+// GET /api/bypass or /api/csrf-token - Retrieve data based on query
 export async function GET(request: NextRequest) {
+  const url = new URL(request.url);
+  const type = url.searchParams.get("type");
+
   try {
+    // If requesting history
+    if (type === "history") {
+      const requests = await storage.getBypassRequests();
+      return NextResponse.json(
+        { requests: requests || [] },
+        {
+          status: 200,
+          headers: {
+            "Cache-Control": "no-store, no-cache, must-revalidate",
+          },
+        }
+      );
+    }
+
+    // Default: Return CSRF token
     const token = await generateCSRFToken();
     await setCSRFCookie(token);
 
@@ -19,9 +37,9 @@ export async function GET(request: NextRequest) {
       }
     );
   } catch (error) {
-    console.error("[v0] CSRF token generation failed:", error);
+    console.error("[v0] GET request error:", error);
     return NextResponse.json(
-      { error: "Failed to generate CSRF token" },
+      { error: "Failed to process request" },
       { status: 500 }
     );
   }

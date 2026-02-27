@@ -75,6 +75,30 @@ class Storage {
       return null;
     }
   }
+
+  async getBypassRequests(): Promise<BypassRequestRecord[]> {
+    try {
+      const files = await fs.readdir(this.storageDir);
+      const records: BypassRequestRecord[] = [];
+
+      for (const file of files) {
+        if (file.endsWith(".json")) {
+          const filePath = path.join(this.storageDir, file);
+          const content = await fs.readFile(filePath, "utf-8");
+          records.push(JSON.parse(content));
+        }
+      }
+
+      // Sort by creation date, newest first
+      return records.sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    } catch (error) {
+      console.error("Failed to get bypass requests:", error);
+      return [];
+    }
+  }
 }
 
 export const storage = new Storage();
