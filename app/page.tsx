@@ -9,8 +9,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div className="text-xl font-bold gradient-text">ImHellAMo</div>
           <div className="flex gap-4">
-            <Link href="/dashboard" className="btn-secondary">
-              Dashboard
+            <Link href="/simulate" className="btn-secondary">
+              Simulator
             </Link>
             <Link href="/submit" className="btn-primary">
               Get Started
@@ -40,8 +40,8 @@ export default function Home() {
               Try Now
               <ArrowRight className="inline ml-2 w-4 h-4" />
             </Link>
-            <Link href="/dashboard" className="btn-secondary text-lg">
-              View Dashboard
+            <Link href="/simulate" className="btn-secondary text-lg">
+              View Simulation
             </Link>
           </div>
 
