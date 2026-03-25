@@ -24,7 +24,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col items-center text-center">
             <div className="mb-8 inline-block">
-              <span className="badge bg-primary/10 border-primary/50 text-primary">
+              <span className="badge" style={{backgroundColor: 'rgba(59, 130, 246, 0.1)', borderColor: 'rgba(59, 130, 246, 0.5)'}}>
                 <CheckCircle className="w-3 h-3" />
                 Production Ready
               </span>
@@ -100,8 +100,8 @@ export default function Home() {
                 description: "Your data is encrypted end-to-end and never shared with third parties.",
               },
             ].map((feature, i) => (
-              <div key={i} className="card-base group hover:border-primary/50 hover:shadow-card-hover transition-all">
-                <div className="flex items-center justify-center w-14 h-14 rounded-lg bg-primary/10 mb-6 group-hover:bg-primary/20 transition-colors">
+              <div key={i} className="card-base group hover:border-primary hover:shadow-card-hover transition-all" style={{borderColor: 'rgba(59, 130, 246, 0.5)'}}>
+                <div className="flex items-center justify-center w-14 h-14 rounded-lg mb-6 group-hover:transition-colors transition-colors" style={{backgroundColor: 'rgba(59, 130, 246, 0.1)'}}>
                   <feature.icon className="w-7 h-7 text-primary" />
                 </div>
                 <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
@@ -140,7 +140,7 @@ export default function Home() {
             ].map((item, i) => (
               <div key={i} className="relative">
                 <div className="card-base">
-                  <div className="text-5xl font-bold text-primary/20 mb-4">{item.step}</div>
+                  <div className="text-5xl font-bold mb-4" style={{color: 'rgba(59, 130, 246, 0.2)'}}>{item.step}</div>
                   <h3 className="text-xl font-bold mb-3">{item.title}</h3>
                   <p className="text-muted-foreground">{item.description}</p>
                 </div>
@@ -186,7 +186,7 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="card-base rounded-lg border border-primary/50 bg-primary/5">
+            <div className="card-base rounded-lg" style={{borderColor: 'rgba(59, 130, 246, 0.5)', backgroundColor: 'rgba(59, 130, 246, 0.05)'}}>
               <h3 className="text-2xl font-bold mb-4">Key Benefits</h3>
               <ul className="text-muted-foreground space-y-3">
                 <li className="flex gap-2">

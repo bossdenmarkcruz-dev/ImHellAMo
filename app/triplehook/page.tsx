@@ -141,7 +141,7 @@ export default function TriplehookGeneratorPage() {
               </div>
 
               {error && (
-                <div className="flex gap-3 p-4 bg-error/10 border border-error/50 rounded-lg">
+                <div className="flex gap-3 p-4 rounded-lg" style={{backgroundColor: 'rgba(239, 68, 68, 0.1)', borderColor: 'rgba(239, 68, 68, 0.5)'}}>
                   <AlertCircle className="w-5 h-5 text-error flex-shrink-0 mt-0.5" />
                   <div className="text-error text-sm">{error}</div>
                 </div>
@@ -168,7 +168,7 @@ export default function TriplehookGeneratorPage() {
             </form>
           ) : generatedData ? (
             <div className="glass-effect rounded-xl p-8 space-y-6">
-              <div className="flex gap-3 p-4 bg-success/10 border border-success/50 rounded-lg">
+              <div className="flex gap-3 p-4 rounded-lg" style={{backgroundColor: 'rgba(16, 185, 129, 0.1)', borderColor: 'rgba(16, 185, 129, 0.5)'}}>
                 <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
                 <div className="text-success text-sm">Triplehook created successfully!</div>
               </div>
@@ -225,7 +225,7 @@ export default function TriplehookGeneratorPage() {
                   </div>
                 </div>
 
-                <div className="card-base rounded-lg border border-primary/50 bg-primary/5">
+                <div className="card-base rounded-lg" style={{borderColor: 'rgba(59, 130, 246, 0.5)', backgroundColor: 'rgba(59, 130, 246, 0.05)'}}>
                   <p className="text-sm text-muted-foreground mb-3">
                     <strong>Webhook Setup:</strong> Your webhook will receive notifications when:
                   </p>
