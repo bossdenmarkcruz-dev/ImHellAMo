@@ -17,6 +17,9 @@ const config: Config = {
         muted: 'var(--muted)',
         border: 'var(--border)',
         input: 'var(--input)',
+        success: 'var(--success)',
+        warning: 'var(--warning)',
+        error: 'var(--error)',
       },
       fontFamily: {
         sans: 'var(--font-geist-sans)',
@@ -26,6 +29,14 @@ const config: Config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+      },
+      boxShadow: {
+        'card': '0 4px 6px -1px rgb(0 0 0 / 0.3)',
+        'card-hover': '0 10px 15px -3px rgb(0 0 0 / 0.5)',
+      },
+      animation: {
+        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'spin': 'spin 1s linear infinite',
       },
     },
   },

