@@ -1,3 +1,4 @@
+/* Cache bust: Fixed CSS opacity classes */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -37,46 +38,86 @@ code {
 
 @layer components {
   .gradient-text {
-    @apply bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent;
+    background: linear-gradient(to right, var(--primary), var(--accent), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .glass-effect {
-    @apply bg-card/70 backdrop-blur-md border border-border rounded-lg shadow-lg;
+    background-color: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3);
   }
 
   .btn-primary {
-    @apply px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-blue-600 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-6 py-2.5 rounded-lg font-semibold transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .btn-primary:hover {
+    background-color: #2563eb;
   }
 
   .btn-secondary {
-    @apply px-6 py-2.5 rounded-lg border border-border text-foreground hover:bg-card/50 transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply px-6 py-2.5 rounded-lg transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    border: 1px solid var(--border);
+    color: var(--foreground);
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(26, 26, 26, 0.5);
   }
 
   .btn-icon {
-    @apply p-2 rounded-lg hover:bg-card/50 transition-colors duration-200;
+    @apply p-2 rounded-lg transition-colors duration-200;
+  }
+
+  .btn-icon:hover {
+    background-color: rgba(26, 26, 26, 0.5);
   }
 
   .card-base {
-    @apply bg-card/50 border border-border rounded-lg p-6 backdrop-blur-sm;
+    background-color: rgba(26, 26, 26, 0.5);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    @apply p-6 backdrop-blur-sm;
   }
 
   .input-base {
-    @apply w-full bg-input border border-border rounded-lg px-4 py-2.5 text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all;
+    @apply w-full rounded-lg px-4 py-2.5 placeholder-muted focus:outline-none focus:ring-2 focus:border-transparent transition-all;
+    background-color: var(--input);
+    border: 1px solid var(--border);
+    color: var(--foreground);
+  }
+
+  .input-base:focus {
+    box-shadow: 0 0 0 2px var(--primary);
   }
 
   .badge {
-    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border;
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium;
+    border: 1px solid var(--border);
   }
 
   .badge-success {
-    @apply bg-success/10 border-success/50 text-success;
+    background-color: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.5);
+    color: var(--success);
   }
 
   .badge-error {
-    @apply bg-error/10 border-error/50 text-error;
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: var(--error);
   }
 
   .badge-warning {
-    @apply bg-warning/10 border-warning/50 text-warning;
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.5);
+    color: var(--warning);
   }
 }

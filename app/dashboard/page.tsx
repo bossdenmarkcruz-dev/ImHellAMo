@@ -171,7 +171,7 @@ export default function DashboardPage() {
                   </div>
 
                   {/* Cookie Display */}
-                  <div className="bg-input/50 rounded-lg p-4 mb-4">
+                  <div className="rounded-lg p-4 mb-4" style={{backgroundColor: 'rgba(19, 19, 19, 0.5)'}}>
                     <div className="flex items-center justify-between gap-4">
                       <code className="text-sm text-muted-foreground font-mono flex-1 truncate">
                         {showCookies[request.id] ? request.cookie : maskCookie(request.cookie)}
@@ -204,7 +204,7 @@ export default function DashboardPage() {
 
                   {/* Response Data */}
                   {request.status === 'success' && request.data && (
-                    <div className="bg-success/5 border border-success/50 rounded-lg p-4 mb-4">
+                    <div className="rounded-lg p-4 mb-4" style={{backgroundColor: 'rgba(16, 185, 129, 0.05)', borderColor: 'rgba(16, 185, 129, 0.5)'}}>
                       <p className="text-xs text-success font-semibold mb-3">Response Data:</p>
                       <pre className="text-xs text-muted-foreground overflow-x-auto max-h-48 font-mono">
                         {JSON.stringify(request.data, null, 2)}
@@ -213,7 +213,7 @@ export default function DashboardPage() {
                   )}
 
                   {request.status === 'failed' && request.data && (
-                    <div className="bg-error/5 border border-error/50 rounded-lg p-4 mb-4">
+                    <div className="rounded-lg p-4 mb-4" style={{backgroundColor: 'rgba(239, 68, 68, 0.05)', borderColor: 'rgba(239, 68, 68, 0.5)'}}>
                       <p className="text-xs text-error font-semibold mb-2">Error Details:</p>
                       <p className="text-xs text-error">{request.data.error || 'Unknown error'}</p>
                     </div>
